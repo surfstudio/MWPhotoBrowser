@@ -9,8 +9,10 @@
 #import "MWCommon.h"
 #import "MWCaptionView.h"
 #import "MWPhoto.h"
+#import "UIImage+MWPhotoBrowser.h"
 
 static const CGFloat labelPadding = 10;
+static const CGFloat hintImageViewHeight = 38;
 
 // Private
 @interface MWCaptionView () {
@@ -26,13 +28,15 @@ static const CGFloat labelPadding = 10;
     if (self) {
         self.userInteractionEnabled = NO;
         _photo = photo;
-        self.barStyle = UIBarStyleBlackTranslucent;
+        [self setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         self.tintColor = nil;
         self.barTintColor = nil;
-        self.barStyle = UIBarStyleBlackTranslucent;
-        [self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        self.clipsToBounds = YES;
+        //self.barStyle = UIBarStyleBlackTranslucent;
+        //[self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         [self setupCaption];
+        
     }
     return self;
 }
@@ -44,7 +48,9 @@ static const CGFloat labelPadding = 10;
                                                 options:NSStringDrawingUsesLineFragmentOrigin
                                              attributes:@{NSFontAttributeName:_label.font}
                                                 context:nil].size;
-    return CGSizeMake(size.width, textSize.height + labelPadding * 2);
+    CGFloat labelHeight = textSize.height + labelPadding * 2;
+    
+    return CGSizeMake(size.width, labelHeight > hintImageViewHeight ? labelHeight : hintImageViewHeight);
 }
 
 - (void)setupCaption {
@@ -63,8 +69,11 @@ static const CGFloat labelPadding = 10;
     if ([_photo respondsToSelector:@selector(caption)]) {
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 2, 38, 34)];
+    imageView.image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ic_pinch" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
     [self addSubview:_label];
+    [self addSubview:imageView];
 }
-
 
 @end

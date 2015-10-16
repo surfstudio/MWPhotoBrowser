@@ -207,7 +207,21 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
-        _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
+              UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        closeButton.frame = CGRectMake(0, 0, 60, 64);
+        closeButton.backgroundColor = [UIColor clearColor];
+        [closeButton setContentEdgeInsets:UIEdgeInsetsMake(0, 17, 0, 10)];
+        [closeButton addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [[closeButton imageView] setContentMode: UIViewContentModeCenter];
+        closeButton.accessibilityLabel = @"modalCloseButton";
+        UIImage *imageNrm = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/btn_close" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];        
+        
+        closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [closeButton setImage: imageNrm forState:UIControlStateNormal];
+        [closeButton setImage: imageNrm forState:UIControlStateHighlighted];
+        [closeButton setImage: imageNrm forState:UIControlStateSelected];
+        [closeButton setExclusiveTouch:YES];
+        _doneButton = [[UIBarButtonItem alloc] initWithCustomView:closeButton];
         // Set appearance
         [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
@@ -215,7 +229,10 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [_doneButton setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsLandscapePhone];
         [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
         [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
-        self.navigationItem.rightBarButtonItem = _doneButton;
+        
+        UIBarButtonItem *fixedspace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        fixedspace.width = -24;
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:fixedspace, _doneButton, nil];;
     } else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
