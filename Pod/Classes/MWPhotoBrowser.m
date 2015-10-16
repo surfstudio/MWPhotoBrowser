@@ -455,10 +455,10 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     UINavigationBar *navBar = self.navigationController.navigationBar;
     
     navBar.tintColor = [UIColor whiteColor];
-    navBar.barTintColor = nil;
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:0.8f]];
+    navBar.barTintColor = [UINavigationBar appearance].barTintColor;
     navBar.shadowImage = nil;
     navBar.translucent = YES;
-    navBar.barStyle = UIBarStyleBlackTranslucent;
     [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
 }
