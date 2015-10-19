@@ -147,6 +147,10 @@
 			// Set image
 			_photoImageView.image = img;
 			_photoImageView.hidden = NO;
+            _photoImageView.alpha = 0;
+            [UIView animateWithDuration:0.3 animations:^{
+                _photoImageView.alpha = 1;
+            }];
 			
 			// Setup photo frame
 			CGRect photoImageViewFrame;
