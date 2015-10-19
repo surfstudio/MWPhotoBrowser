@@ -464,7 +464,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 forBarPosition:UIBarPositionAny
                     barMetrics:UIBarMetricsDefault];
     // set solid corol for status bar, because it's trasparent after navBar setBackgroundImage:[UIImage new]
-    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 320, 22)];
+    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, 22)];
     statusBarView.backgroundColor = [UIColor whiteColor];
     [navBar addSubview:statusBarView];
     

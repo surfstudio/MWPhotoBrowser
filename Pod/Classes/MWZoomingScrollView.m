@@ -116,6 +116,13 @@
     } else {
         // Will be loading so show loading
         [self showLoadingIndicator];
+        if (!_loadingError) {
+            [self displayLoadingError];
+        }
+        _loadingError.frame = CGRectMake(floorf((self.bounds.size.width - _loadingError.frame.size.width) / 2.),
+                                         floorf((self.bounds.size.height - _loadingError.frame.size.height) / 2),
+                                         _loadingError.frame.size.width,
+                                         _loadingError.frame.size.height);
     }
 }
 
@@ -135,7 +142,8 @@
 			
 			// Hide indicator
 			[self hideLoadingIndicator];
-			
+            [self hideImageFailure];
+            
 			// Set image
 			_photoImageView.image = img;
 			_photoImageView.hidden = NO;
@@ -151,7 +159,6 @@
 			[self setMaxMinZoomScalesForCurrentBounds];
 			
 		} else  {
-
             // Show image failure
             [self displayImageFailure];
 			
@@ -168,19 +175,23 @@
     // Show if image is not empty
     if (![_photo respondsToSelector:@selector(emptyImage)] || !_photo.emptyImage) {
         if (!_loadingError) {
-            _loadingError = [UIImageView new];
-            _loadingError.image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ImageError" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
-            _loadingError.userInteractionEnabled = NO;
-            _loadingError.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
-            UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
-            [_loadingError sizeToFit];
-            [self addSubview:_loadingError];
+            [self displayLoadingError];
         }
         _loadingError.frame = CGRectMake(floorf((self.bounds.size.width - _loadingError.frame.size.width) / 2.),
                                          floorf((self.bounds.size.height - _loadingError.frame.size.height) / 2),
                                          _loadingError.frame.size.width,
                                          _loadingError.frame.size.height);
     }
+}
+
+- (void)displayLoadingError {
+    _loadingError = [UIImageView new];
+    _loadingError.image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ImageError" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
+    _loadingError.userInteractionEnabled = NO;
+    _loadingError.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin |
+    UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+    [_loadingError sizeToFit];
+    [self addSubview:_loadingError];
 }
 
 - (void)hideImageFailure {
