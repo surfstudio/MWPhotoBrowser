@@ -470,8 +470,8 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
     if (self.titleFontName && self.titleFontName.length > 0) {
         [navBar setTitleTextAttributes: @{
-                                          NSForegroundColorAttributeName: [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f],
-                                          NSFontAttributeName: [UIFont fontWithName:self.titleFontName size:15],
+                                          NSForegroundColorAttributeName:[UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f],
+                                          NSFontAttributeName:[UIFont fontWithName:self.titleFontName size:15],
                                           }];
     }
 }
@@ -708,7 +708,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     } else {
         id <MWPhoto> photo = [self photoAtIndex:index];
         if ([photo respondsToSelector:@selector(caption)]) {
-            if ([photo caption]) captionView = [[MWCaptionView alloc] initWithPhoto:photo];
+            if ([photo caption]) captionView = [[MWCaptionView alloc] initWithPhoto:photo withFontName:self.titleFontName];
         }
     }
     captionView.alpha = [self areControlsHidden] ? 0 : 1; // Initial alpha

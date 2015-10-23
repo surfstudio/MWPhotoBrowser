@@ -12,7 +12,7 @@
 @interface MWCaptionView : UIToolbar
 
 // Init
-- (id)initWithPhoto:(id<MWPhoto>)photo;
+- (id)initWithPhoto:(id<MWPhoto>)photo withFontName:(NSString *)fontName;
 
 // To create your own custom caption view, subclass this view
 // and override the following two methods (as well as any other
@@ -23,7 +23,7 @@
 // You can access the photo's data by accessing the _photo ivar
 // If you need more data per photo then simply subclass MWPhoto and return your
 // subclass to the photo browsers -photoBrowser:photoAtIndex: delegate method
-- (void)setupCaption;
+- (void)setupCaption:(NSString *)fontName;
 
 // Override -sizeThatFits: and return a CGSize specifying the height of your
 // custom caption view. With width property is ignored and the caption is displayed

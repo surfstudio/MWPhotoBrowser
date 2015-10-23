@@ -11,7 +11,8 @@
 #import "MWPhoto.h"
 #import "UIImage+MWPhotoBrowser.h"
 
-static const CGFloat labelPadding = 10;
+static const CGFloat labelPadding = 58;
+static const CGFloat heightLabelPadding = 10;
 static const CGFloat hintImageViewHeight = 38;
 
 // Private
@@ -23,7 +24,7 @@ static const CGFloat hintImageViewHeight = 38;
 
 @implementation MWCaptionView
 
-- (id)initWithPhoto:(id<MWPhoto>)photo {
+- (id)initWithPhoto:(id<MWPhoto>)photo withFontName:(NSString *)fontName {
     self = [super initWithFrame:CGRectMake(0, 0, 320, 44)]; // Random initial frame
     if (self) {
         self.userInteractionEnabled = NO;
@@ -35,7 +36,7 @@ static const CGFloat hintImageViewHeight = 38;
         //self.barStyle = UIBarStyleBlackTranslucent;
         //[self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
-        [self setupCaption];
+        [self setupCaption:fontName];
         
     }
     return self;
@@ -48,12 +49,12 @@ static const CGFloat hintImageViewHeight = 38;
                                                 options:NSStringDrawingUsesLineFragmentOrigin
                                              attributes:@{NSFontAttributeName:_label.font}
                                                 context:nil].size;
-    CGFloat labelHeight = textSize.height + labelPadding * 2;
+    CGFloat labelHeight = textSize.height + heightLabelPadding * 2;
     
     return CGSizeMake(size.width, labelHeight > hintImageViewHeight ? labelHeight : hintImageViewHeight);
 }
 
-- (void)setupCaption {
+- (void)setupCaption:(NSString *)fontName {
     _label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, 0,
                                                        self.bounds.size.width-labelPadding*2,
                                                        self.bounds.size.height))];
@@ -64,8 +65,8 @@ static const CGFloat hintImageViewHeight = 38;
     _label.lineBreakMode = NSLineBreakByWordWrapping;
 
     _label.numberOfLines = 0;
-    _label.textColor = [UIColor whiteColor];
-    _label.font = [UIFont systemFontOfSize:17];
+    _label.textColor =  [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f];
+    _label.font = [UIFont fontWithName:fontName size:15];
     if ([_photo respondsToSelector:@selector(caption)]) {
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }
