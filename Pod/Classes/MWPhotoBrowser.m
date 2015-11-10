@@ -154,6 +154,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     _pagingScrollView.delegate = self;
     _pagingScrollView.showsHorizontalScrollIndicator = NO;
     _pagingScrollView.showsVerticalScrollIndicator = NO;
+    _pagingScrollView.bounces = NO;
     _pagingScrollView.backgroundColor = [UIColor whiteColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
     [self.view addSubview:_pagingScrollView];
