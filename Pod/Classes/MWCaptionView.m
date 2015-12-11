@@ -29,6 +29,18 @@ static const CGFloat hintImageViewHeight = 44;
     if (self) {
         self.userInteractionEnabled = NO;
         _photo = photo;
+        
+        CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        
+        CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
+        CGContextFillRect(context, rect);
+        
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        [self setBackgroundImage:image forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         self.tintColor = nil;
         self.barTintColor = nil;
         self.clipsToBounds = YES;
