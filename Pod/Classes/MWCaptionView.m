@@ -13,7 +13,7 @@
 
 static const CGFloat labelPadding = 58;
 static const CGFloat heightLabelPadding = 10;
-static const CGFloat hintImageViewHeight = 38;
+static const CGFloat hintImageViewHeight = 44;
 
 // Private
 @interface MWCaptionView () {
@@ -29,27 +29,24 @@ static const CGFloat hintImageViewHeight = 38;
     if (self) {
         self.userInteractionEnabled = NO;
         _photo = photo;
-        [self setBackgroundImage:[[UIImage alloc] init] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
         self.tintColor = nil;
         self.barTintColor = nil;
         self.clipsToBounds = YES;
         //self.barStyle = UIBarStyleBlackTranslucent;
-        //[self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        [self setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
         [self setupCaption:fontName];
-        
     }
     return self;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    CGFloat labelHeight = _label.frame.size.height + heightLabelPadding * 2;
-    return CGSizeMake(size.width, labelHeight > hintImageViewHeight ? labelHeight : hintImageViewHeight);
+    return CGSizeMake(size.width, hintImageViewHeight);
 }
 
 - (void)setupCaption:(NSString *)fontName {
     _label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, 0,
-                                                       self.bounds.size.width - labelPadding - 10,
+                                                       self.bounds.size.width - labelPadding * 2,
                                                        self.bounds.size.height))];
     _label.opaque = NO;
     _label.backgroundColor = [UIColor clearColor];
@@ -63,7 +60,7 @@ static const CGFloat hintImageViewHeight = 38;
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 2, 38, 34)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 38, 34)];
     imageView.image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ic_pinch" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
     [self addSubview:_label];
     [self addSubview:imageView];
