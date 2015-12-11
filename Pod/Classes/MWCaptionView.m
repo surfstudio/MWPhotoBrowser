@@ -43,26 +43,18 @@ static const CGFloat hintImageViewHeight = 38;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    CGFloat maxHeight = 9999;
-    if (_label.numberOfLines > 0) maxHeight = _label.font.leading*_label.numberOfLines;
-    CGSize textSize = [_label.text boundingRectWithSize:CGSizeMake(size.width - labelPadding*2, maxHeight)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName:_label.font}
-                                                context:nil].size;
-    CGFloat labelHeight = textSize.height + heightLabelPadding * 2;
-    
+    CGFloat labelHeight = _label.frame.size.height + heightLabelPadding * 2;
     return CGSizeMake(size.width, labelHeight > hintImageViewHeight ? labelHeight : hintImageViewHeight);
 }
 
 - (void)setupCaption:(NSString *)fontName {
     _label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, 0,
-                                                       self.bounds.size.width-labelPadding*2,
+                                                       self.bounds.size.width - labelPadding - 10,
                                                        self.bounds.size.height))];
-    _label.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _label.opaque = NO;
     _label.backgroundColor = [UIColor clearColor];
     _label.textAlignment = NSTextAlignmentCenter;
-    _label.lineBreakMode = NSLineBreakByWordWrapping;
+    _label.lineBreakMode = NSLineBreakByTruncatingTail;
 
     _label.numberOfLines = 1;
     _label.textColor =  [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f];
