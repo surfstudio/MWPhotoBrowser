@@ -64,7 +64,7 @@ static const CGFloat hintImageViewHeight = 38;
     _label.textAlignment = NSTextAlignmentCenter;
     _label.lineBreakMode = NSLineBreakByWordWrapping;
 
-    _label.numberOfLines = 0;
+    _label.numberOfLines = 1;
     _label.textColor =  [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f];
     _label.font = [UIFont fontWithName:fontName size:15];
     if ([_photo respondsToSelector:@selector(caption)]) {
