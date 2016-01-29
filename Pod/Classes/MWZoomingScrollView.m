@@ -413,10 +413,11 @@
 		
 		// Zoom in to twice the size
         CGFloat newZoomScale = ((self.maximumZoomScale + self.minimumZoomScale) / 2);
-        CGFloat xsize = self.bounds.size.width / newZoomScale;
-        CGFloat ysize = self.bounds.size.height / newZoomScale;
-        [self zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
-
+        if (newZoomScale > 1) {
+            CGFloat xsize = self.bounds.size.width / newZoomScale;
+            CGFloat ysize = self.bounds.size.height / newZoomScale;
+            [self zoomToRect:CGRectMake(touchPoint.x - xsize/2, touchPoint.y - ysize/2, xsize, ysize) animated:YES];
+        }
 	}
 	
 	// Delay controls
