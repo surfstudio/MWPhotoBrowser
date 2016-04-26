@@ -217,10 +217,22 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         closeButton.accessibilityLabel = @"modalCloseButton";
         UIImage *imageNrm = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/btn_close" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
         
+        UIGraphicsBeginImageContextWithOptions(imageNrm.size, NO, imageNrm.scale);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextTranslateCTM(context, 0, imageNrm.size.height);
+        CGContextScaleCTM(context, 1.0, -1.0);
+        CGContextSetBlendMode(context, kCGBlendModeNormal);
+        CGRect rect = CGRectMake(0, 0, imageNrm.size.width, imageNrm.size.height);
+        CGContextClipToMask(context, rect, imageNrm.CGImage);
+        [[UIColor colorWithRed:6./255 green:80./255 blue:194./255 alpha:1.0] setFill];
+        CGContextFillRect(context, rect);
+        UIImage *imageNrm1 = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
         closeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [closeButton setImage: imageNrm forState:UIControlStateNormal];
-        [closeButton setImage: imageNrm forState:UIControlStateHighlighted];
-        [closeButton setImage: imageNrm forState:UIControlStateSelected];
+        [closeButton setImage: imageNrm1 forState:UIControlStateNormal];
+        [closeButton setImage: imageNrm1 forState:UIControlStateHighlighted];
+        [closeButton setImage: imageNrm1 forState:UIControlStateSelected];
         [closeButton setExclusiveTouch:YES];
         _doneButton = [[UIBarButtonItem alloc] initWithCustomView:closeButton];
         // Set appearance
@@ -232,7 +244,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         
         UIBarButtonItem *fixedspace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        fixedspace.width = -24;
+        fixedspace.width = -29;
         self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:fixedspace, _doneButton, nil];;
     } else {
         // We're not first so show back button
