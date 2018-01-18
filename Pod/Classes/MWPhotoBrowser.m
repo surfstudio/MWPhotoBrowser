@@ -208,10 +208,14 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
+        CGFloat closeButtonYOffset = 15;
+        if (@available(iOS 11, *)) {
+            closeButtonYOffset = 28;
+        }
         UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         closeButton.frame = CGRectMake(0, 0, 60, 64);
         closeButton.backgroundColor = [UIColor clearColor];
-        [closeButton setContentEdgeInsets:UIEdgeInsetsMake(0, 17, 0, 10)];
+        [closeButton setContentEdgeInsets:UIEdgeInsetsMake(0, closeButtonYOffset, 0, 10)];
         [closeButton addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [[closeButton imageView] setContentMode: UIViewContentModeCenter];
         closeButton.accessibilityLabel = @"modalCloseButton";
