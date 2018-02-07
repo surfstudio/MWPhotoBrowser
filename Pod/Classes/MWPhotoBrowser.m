@@ -70,6 +70,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     _performingLayout = NO; // Reset on view did appear
     _rotating = NO;
     _viewIsActive = NO;
+    _isPresented = NO;
     _enableGrid = YES;
     _startOnGrid = NO;
     _enableSwipeToDismiss = YES;
@@ -192,7 +193,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
     // Super
     [super viewDidLoad];
-    
+    self.isPresented = YES;
 }
 
 - (void)performLayout {
@@ -1597,6 +1598,8 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 return;
             }
         }
+        
+        self.isPresented = NO;
         // Dismiss view controller
         if ([_delegate respondsToSelector:@selector(photoBrowserDidFinishModalPresentation:)]) {
             // Call delegate method and let them dismiss us
