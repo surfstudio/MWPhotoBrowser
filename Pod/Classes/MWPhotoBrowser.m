@@ -17,6 +17,12 @@
 
 static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 
+@interface MWPhotoBrowser ()
+
+@property (nonatomic, strong) UIView *statusBarView;
+
+@end
+
 @implementation MWPhotoBrowser
 
 #pragma mark - Init
@@ -487,9 +493,9 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 forBarPosition:UIBarPositionAny
                     barMetrics:UIBarMetricsDefault];
     // set solid corol for status bar, because it's trasparent after navBar setBackgroundImage:[UIImage new]
-    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, 22)];
-    statusBarView.backgroundColor = [UIColor whiteColor];
-    [navBar addSubview:statusBarView];
+    self.statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, 22)];
+    self.statusBarView.backgroundColor = [UIColor whiteColor];
+    [navBar addSubview:self.statusBarView];
     
     if (self.titleFontName && self.titleFontName.length > 0) {
         [navBar setTitleTextAttributes: @{
@@ -548,6 +554,8 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     
     // Toolbar
     _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
+    
+    self.statusBarView.frame = CGRectMake(0, -20, [self frameForToolbarAtOrientation:self.interfaceOrientation].size.width, 22);
     
     // Remember index
     NSUInteger indexPriorToLayout = _currentPageIndex;
