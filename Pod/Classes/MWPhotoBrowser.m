@@ -493,7 +493,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
                 forBarPosition:UIBarPositionAny
                     barMetrics:UIBarMetricsDefault];
     // set solid corol for status bar, because it's trasparent after navBar setBackgroundImage:[UIImage new]
-    self.statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, [[UIScreen mainScreen] bounds].size.width, 22)];
+    self.statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, [[UIScreen mainScreen] bounds].size.width, [UIApplication sharedApplication].statusBarFrame.size.height)];
     self.statusBarView.backgroundColor = [UIColor whiteColor];
     [navBar addSubview:self.statusBarView];
     
@@ -555,7 +555,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     // Toolbar
     _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
     
-    self.statusBarView.frame = CGRectMake(0, -20, [self frameForToolbarAtOrientation:self.interfaceOrientation].size.width, 22);
+    self.statusBarView.frame = CGRectMake(0, -[UIApplication sharedApplication].statusBarFrame.size.height, [self frameForToolbarAtOrientation:self.interfaceOrientation].size.width, [UIApplication sharedApplication].statusBarFrame.size.height);
     
     // Remember index
     NSUInteger indexPriorToLayout = _currentPageIndex;
@@ -1067,12 +1067,18 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     CGFloat height = 44;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone &&
         UIInterfaceOrientationIsLandscape(orientation)) height = 32;
+    if (@available(iOS 11.0, *)) {
+        height += UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
+    }
     return CGRectIntegral(CGRectMake(0, self.view.bounds.size.height - height, self.view.bounds.size.width, height));
 }
 
 - (CGRect)frameForCaptionView:(MWCaptionView *)captionView atIndex:(NSUInteger)index {
     CGRect pageFrame = [self frameForPageAtIndex:index];
     CGSize captionSize = [captionView sizeThatFits:CGSizeMake(pageFrame.size.width, 0)];
+    if (@available(iOS 11.0, *)) {
+        captionSize.height += UIApplication.sharedApplication.keyWindow.safeAreaInsets.bottom;
+    }
     CGRect captionFrame = CGRectMake(pageFrame.origin.x,
                                      pageFrame.size.height - captionSize.height - (_toolbar.superview?_toolbar.frame.size.height:0),
                                      pageFrame.size.width,
@@ -1709,3 +1715,4 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 }
 
 @end
+
