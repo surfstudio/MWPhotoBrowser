@@ -12,7 +12,6 @@
 #import "UIImage+MWPhotoBrowser.h"
 
 static const CGFloat labelPadding = 15;
-static const CGFloat heightLabelPadding = 10;
 static const CGFloat hintImageViewHeight = 44;
 
 // Private
