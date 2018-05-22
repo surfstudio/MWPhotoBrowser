@@ -11,7 +11,7 @@
 #import "MWPhoto.h"
 #import "UIImage+MWPhotoBrowser.h"
 
-static const CGFloat labelPadding = 58;
+static const CGFloat labelPadding = 15;
 static const CGFloat heightLabelPadding = 10;
 static const CGFloat hintImageViewHeight = 44;
 
@@ -63,7 +63,7 @@ static const CGFloat hintImageViewHeight = 44;
                                                        self.bounds.size.height))];
     _label.opaque = NO;
     _label.backgroundColor = [UIColor clearColor];
-    _label.textAlignment = NSTextAlignmentCenter;
+    _label.textAlignment = NSTextAlignmentLeft;
     _label.lineBreakMode = NSLineBreakByTruncatingTail;
 
     _label.numberOfLines = 1;
@@ -73,10 +73,7 @@ static const CGFloat hintImageViewHeight = 44;
         _label.text = [_photo caption] ? [_photo caption] : @" ";
     }
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, 38, 34)];
-    imageView.image = [UIImage imageForResourcePath:@"MWPhotoBrowser.bundle/ic_pinch" ofType:@"png" inBundle:[NSBundle bundleForClass:[self class]]];
     [self addSubview:_label];
-    [self addSubview:imageView];
 }
 
 @end
