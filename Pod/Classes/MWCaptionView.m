@@ -17,7 +17,8 @@ static const CGFloat hintImageViewHeight = 44;
 // Private
 @interface MWCaptionView () {
     id <MWPhoto> _photo;
-    UILabel *_label;    
+    UILabel *_label;
+    UILabel *_secondLabel;
 }
 @end
 
@@ -57,22 +58,42 @@ static const CGFloat hintImageViewHeight = 44;
 }
 
 - (void)setupCaption:(NSString *)fontName {
-    _label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, 0,
-                                                       self.bounds.size.width - labelPadding * 2,
-                                                       self.bounds.size.height))];
-    _label.opaque = NO;
-    _label.backgroundColor = [UIColor clearColor];
-    _label.textAlignment = NSTextAlignmentLeft;
-    _label.lineBreakMode = NSLineBreakByTruncatingTail;
-
-    _label.numberOfLines = 1;
-    _label.textColor =  [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f];
-    _label.font = [UIFont fontWithName:fontName size:15];
+    NSArray <NSString *> *textArray = nil;
+    NSString *text = @"";
     if ([_photo respondsToSelector:@selector(caption)]) {
-        _label.text = [_photo caption] ? [_photo caption] : @" ";
+        text = [_photo caption] ? [_photo caption] : @" ";
     }
-    
-    [self addSubview:_label];
+    if (text && text.length>0) {
+        textArray = [text componentsSeparatedByString:@"\n"];
+    }
+    if (textArray && textArray.count>0) {
+        if (textArray.count>1) {
+            _label = [self configureLabel:_label withText:textArray[0] topOffset:0 labelHeight:19 fontName:fontName];
+            [self addSubview:_label];
+            
+            _secondLabel = [self configureLabel:_secondLabel withText:textArray[1] topOffset:_label.frame.size.height labelHeight:_label.frame.size.height fontName:fontName];
+            [self addSubview:_secondLabel];
+            
+        } else {
+            _label = [self configureLabel:_label withText:textArray[0] topOffset:0 labelHeight:self.bounds.size.height fontName:fontName];
+            [self addSubview:_label];
+        }
+    }
+}
+
+- (UILabel *)configureLabel:(UILabel *)label withText:(NSString *)text topOffset:(CGFloat)topOffset labelHeight:(CGFloat)labelHeight fontName:(NSString *)fontName {
+    label = [[UILabel alloc] initWithFrame:CGRectIntegral(CGRectMake(labelPadding, topOffset,
+                                                                     [[UIScreen mainScreen] bounds].size.width - labelPadding * 2,
+                                                                     labelHeight))];
+    label.text = text;
+    label.opaque = NO;
+    label.backgroundColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentLeft;
+    label.lineBreakMode = NSLineBreakByTruncatingTail;
+    label.numberOfLines = 1;
+    label.textColor =  [UIColor colorWithRed:137.f/255.f green:137.f/255.f blue:137.f/255.f alpha:1.f];
+    label.font = [UIFont fontWithName:fontName size:15];
+    return label;
 }
 
 @end
